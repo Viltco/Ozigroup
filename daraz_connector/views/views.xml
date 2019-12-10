@@ -1,0 +1,122 @@
+<odoo>
+  <data>
+<!--    <record id="product_category_list_view_daraz" model="ir.ui.view">-->
+<!--            <field name="name">product.category.list.daraz</field>-->
+<!--            <field name="model">product.category</field>-->
+
+<!--            <field name="inherit_id" ref="product.product_category_list_view"></field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='display_name']" position="before">-->
+<!--                 <button name="getCategories" string="Get Categories" type="object" class="btn-primary"/>-->
+<!--            </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    <!-- explicit list view definition -->
+
+<!--    <record model="ir.ui.view" id="daraz_connector_list">-->
+<!--      <field name="name">Daraz Store List</field>-->
+<!--      <field name="model">daraz.connector</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree string="Daraz Store List">-->
+<!--          <field name="name"/>-->
+<!--          <field name="api_url"/>-->
+<!--          <field name="userId"/>-->
+<!--          <field name="api_key"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+      <record model="ir.ui.view" id="daraz_connector_form">
+      <field name="name">Daraz Store Form</field>
+      <field name="model">daraz.connector</field>
+      <field name="arch" type="xml">
+        <form string="Daraz Store">
+            <header>
+                <button name="doConnection" string="Connect Store" type="object" state="draft" class="btn-primary"/>
+                <field name="state" widget="statusbar"/>
+            </header>
+            <group>
+                <group>
+                    <field name="name"/>
+                    <field name="api_url"/>
+                </group>
+                <group>
+                    <field name="userId"/>
+                    <field name="api_key"/>
+                </group>
+            </group>
+
+
+        </form>
+      </field>
+    </record>
+
+<record model="ir.ui.view" id="sync_darazCategories">
+    <field name="name">Daraz Store Categoreis</field>
+      <field name="model">sync.darazcategories</field>
+      <field name="arch" type="xml">
+          <form string="Sync Daraz Categories">
+              <field name="darazStoreId" />
+              <footer>
+                  <button name="getCategories" string="Get Categories" type="object" class="btn-primary"/>
+              </footer>
+          </form>
+      </field>
+</record>
+      <record model="ir.actions.act_window" id="daraz_sync_categories_action_window">
+          <field name="name">Daraz Store Categories</field>
+          <field name="res_model">sync.darazcategories</field>
+          <field name="view_mode">form</field>
+
+          <field name="target">new</field>
+      </record>
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="daraz_connector_action_window">
+      <field name="name">Daraz Store</field>
+      <field name="res_model">daraz.connector</field>
+      <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the Store
+                </p>
+            </field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="custom_addons/daraz_connector/.action_server">
+      <field name="name">custom_addons/daraz_connector/ server</field>
+      <field name="model_id" ref="model_custom_addons/daraz_connector/_custom_addons/daraz_connector/"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+
+    <menuitem name="Daraz" id="daraz_connector_menu_root"/>
+
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="custom_addons/daraz_connector/.menu_1" parent="custom_addons/daraz_connector/.menu_root"/>
+    -->
+    <menuitem name="Daraz Stores" id="daraz_connector_child" parent="daraz_connector_menu_root" />
+
+
+    <!-- actions -->
+
+    <menuitem name="Stores" id="daraz_connector_menu_1_list" parent="daraz_connector_child"
+            action="daraz_connector_action_window"  />
+
+      <menuitem name="Daraz Stores Categories" id="daraz_categories" parent="stock.menu_product_in_config_stock"
+      action="daraz_sync_categories_action_window"/>
+
+
+  </data>
+</odoo>
